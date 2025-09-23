@@ -1,0 +1,21 @@
+<div class="navbar">
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">HOME</a>
+        <a href="{{ url_for('staff') }}">STAFF</a>
+
+        {% if session.get('user_id') %}
+            <!-- If logged in -->
+            <a href="{{ url_for('logout') }}">LOGOUT</a>
+        {% else %}
+            <!-- If not logged in -->
+            <a href="{{ url_for('login') }}">LOGIN</a>
+            <a href="{{ url_for('register') }}">REGISTER</a>
+        {% endif %}
+    </div>
+
+    <div class="search-bar">
+        <form method="GET" action="{{ url_for('home') }}">
+            <input type="text" name="q" placeholder="Search item...">
+        </form>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>UEP Lost & Found</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <h1>UEP Lost & Found Dashboard</h1>
+
+    <!-- NAVIGATION BAR -->
+    <div class="navbar">
+      <div class="nav-links">
+        <a href="{{ url_for('home') }}">HOME</a>
+        <a href="{{ url_for('staff') }}">STAFF</a>
+
+        {% if session.get('user_id') %}
+          <a href="{{ url_for('logout') }}">LOGOUT</a>
+        {% else %}
+          <a href="{{ url_for('login') }}">LOGIN</a>
+          <a href="{{ url_for('register') }}">REGISTER</a>
+        {% endif %}
+      </div>
+
+      <div class="search-bar">
+        <form method="GET" action="{{ url_for('home') }}">
+          <input
+            type="text"
+            name="q"
+            placeholder="🔍 Search item..."
+            value="{{ query }}"
+          />
+        </form>
+      </div>
+    </div>
+
+    <a href="{{ url_for('add_item') }}" class="btn">Add New Item</a>
+
+    <table>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th>Assisting Staff</th>
+        <th>Time Stored</th>
+        <th>Actions</th>
+      </tr>
+
+      {% for item in items %}
+      <tr>
+        <td>
+          {% if item.image %}
+          <img
+            src="{{ url_for('static', filename='uploads/' ~ item.image) }}"
+            alt="Item Image"
+            width="80"
+            height="80"
+          />
+          {% else %} No Image {% endif %}
+        </td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.category }}</td>
+        <td class="status-cell">
+          <span class="status {{ item.status | lower }}">{{ item.status }}</span>
+        </td>
+        <td>{{ item.assisting_staff }}</td>
+        <td>{{ item.time_stored }}</td>
+        <td>
+          {% if item.status == 'Unclaimed' %}
+          <a href="{{ url_for('claim_item', item_id=item.id) }}">Claim</a>
+          {% endif %}
+          <a href="{{ url_for('update_item', item_id=item.id) }}">Update</a>
+          <a href="{{ url_for('delete_item', item_id=item.id) }}">Delete</a>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="7">No items reported yet.</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

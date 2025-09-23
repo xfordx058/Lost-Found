@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Lost Item</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='add_item_style.css') }}">
+    <style>
+        /* Navigation bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #2c3e50;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #34495e;
+        }
+
+        .search-bar input {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        /* Progress bar styling */
+        #progressContainer {
+            margin-top: 10px;
+            width: 100%;
+            background: #f1f1f1;
+            border-radius: 6px;
+            overflow: hidden;
+            height: 20px;
+            position: relative;
+        }
+
+        #progressBar {
+            height: 100%;
+            background: #27ae60;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        #progressText {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <div class="form-card">
+            <h1>Add New Lost Item</h1>
+            <form method="POST" enctype="multipart/form-data" id="itemForm">
+                <label>Item Name</label>
+                <input type="text" name="name" placeholder="Enter item name" required>
+
+                <label>Category</label>
+                <input type="text" name="category" placeholder="Enter category" required>
+
+                <label>Description</label>
+                <textarea name="description" placeholder="Enter description"></textarea>
+
+                <label>Upload Image</label>
+                <input type="file" name="image" accept="image/*" id="imageInput">
+                <div id="previewContainer">
+                    <img id="imagePreview" src="" alt="Preview" style="display:none; max-width:100%; margin-top:10px;">
+                </div>
+                <div id="progressContainer" style="display:none;">
+                    <div id="progressBar"></div>
+                    <span id="progressText">0%</span>
+                </div>
+
+                <button type="submit">Add Item</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const imageInput = document.getElementById("imageInput");
+        const imagePreview = document.getElementById("imagePreview");
+        const progressContainer = document.getElementById("progressContainer");
+        const progressBar = document.getElementById("progressBar");
+        const progressText = document.getElementById("progressText");
+
+        imageInput.addEventListener("change", function() {
+            const file = this.files[0];
+            if (file) {
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = "block";
+                }
+                reader.readAsDataURL(file);
+
+                // Simulate progress bar
+                progressContainer.style.display = "block";
+                let progress = 0;
+                progressBar.style.width = "0%";
+                progressText.innerText = "0%";
+
+                const interval = setInterval(() => {
+                    progress += 10;
+                    if (progress > 100) progress = 100;
+                    progressBar.style.width = progress + "%";
+                    progressText.innerText = progress + "%";
+                    if (progress === 100) clearInterval(interval);
+                }, 50);
+            }
+        });
+    </script>
+</body>
+</html>

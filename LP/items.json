@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "Balay ni Jona",
+        "description": "House & Lot",
+        "category": "House",
+        "date_found": "2025-09-23T23:38:56.488502",
+        "status": "Unclaimed",
+        "assisting_staff": "",
+        "image": "house.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Rusi",
+        "description": "susi san rusi",
+        "category": "Key",
+        "date_found": "2025-09-23T23:50:05.190853",
+        "status": "Unclaimed",
+        "assisting_staff": "",
+        "image": "Capture4.PNG"
+    }
+]

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Staff</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Add New Staff</h1>
+    <form method="POST">
+        <input type="text" name="name" placeholder="Staff Name" required><br>
+        <input type="text" name="role" placeholder="Role (e.g., Clerk, Admin)" required><br>
+        <button type="submit">Add Staff</button>
+    </form>
+    <a href="{{ url_for('staff') }}">⬅ Back to Staff</a>
+</body>
+</html>

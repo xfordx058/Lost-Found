@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "name": "rocky",
+        "role": "admin",
+        "date_added": "2025-09-21T19:13:17.514908"
+    },
+    {
+        "id": 2,
+        "name": "Jona",
+        "role": "Clerk",
+        "date_added": "2025-09-21T19:15:06.307391"
+    },
+    {
+        "id": 3,
+        "name": "Glen Ford Anquilo",
+        "role": "Student - Clerk",
+        "date_added": "2025-09-23T22:10:33.092419"
+    }
+]

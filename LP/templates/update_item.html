@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Item</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        input, select {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            background: #2980b9;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #3498db;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Update Item</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="text" name="name" value="{{ item.name }}" required>
+            <input type="text" name="description" value="{{ item.description }}" required>
+            <input type="text" name="category" value="{{ item.category }}" required>
+            <input type="file" name="image">
+
+            {% if item.image %}
+              <p>Current Image:</p>
+              <img src="{{ url_for('static', filename='uploads/' ~ item.image) }}" width="100">
+            {% endif %}
+
+            <button type="submit">Update Item</button>
+        </form>
+        <a href="{{ url_for('home') }}" class="back-link">⬅ Back to Dashboard</a>
+    </div>
+</body>
+</html>

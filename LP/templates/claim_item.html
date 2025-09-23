@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Claim Item</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='claim_item_style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container-claim">
+      <!-- Item Details Card -->
+      <div class="item-details">
+        <h2>Item Details</h2>
+        {% if item.image %}
+        <img
+          src="{{ url_for('static', filename='uploads/' ~ item.image) }}"
+          alt="{{ item.name }}"
+        />
+        {% else %}
+        <div class="no-image">No Image</div>
+        {% endif %}
+
+        <p><strong>Name:</strong> {{ item.name }}</p>
+        <p><strong>Description:</strong> {{ item.description }}</p>
+        <p><strong>Category:</strong> {{ item.category }}</p>
+        <p><strong>Status:</strong> {{ item.status }}</p>
+        <p>
+          <strong>Date Found:</strong> {{ item.date_found | format_datetime }}
+        </p>
+
+        {% if item.proof_image %}
+        <p><strong>Proof Uploaded:</strong></p>
+        <img
+          src="{{ url_for('static', filename='uploads/' ~ item.proof_image) }}"
+          alt="Proof"
+          style="max-width: 100%; margin-top: 10px; border: 1px solid #ccc; border-radius: 6px;"
+        />
+        <p><em>Uploaded at: {{ item.proof_uploaded_at | format_datetime }}</em></p>
+        {% endif %}
+      </div>
+
+      <!-- Claim Form -->
+      <div class="claim-form">
+        <h2>Claim This Item</h2>
+        <!-- 🔹 Important: enctype added for file upload -->
+        <form method="POST" enctype="multipart/form-data">
+          <!-- Staff Dropdown -->
+          <div class="form-group">
+            <label for="staff">Assisting Staff</label>
+            <select name="staff" id="staff" required>
+              <option value="">-- Select Staff --</option>
+              {% for staff in staff_list %}
+              <option value="{{ staff.name }}">
+                {{ staff.name }} ({{ staff.role }})
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Claimer Details -->
+          <div class="form-group">
+            <label for="claimer_name">Claimer Name</label>
+            <input
+              type="text"
+              name="claimer_name"
+              id="claimer_name"
+              placeholder="Enter Claimer's Full Name"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="college">College</label>
+            <input
+              type="text"
+              name="college"
+              id="college"
+              placeholder="e.g. College of Science"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="course">Course</label>
+            <input
+              type="text"
+              name="course"
+              id="course"
+              placeholder="e.g. BSIT"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="year_section">Year & Section</label>
+            <input
+              type="text"
+              name="year_section"
+              id="year_section"
+              placeholder="e.g. 1st Year - A"
+              required
+            />
+          </div>
+
+          <!-- 🔹 Proof Upload -->
+          <div class="form-group">
+            <label for="proof">Upload Proof (Image)</label>
+            <input
+              type="file"
+              name="proof"
+              id="proof"
+              accept="image/*"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn">✅ Claim Item</button>
+        </form>
+
+        <a href="{{ url_for('home') }}" class="back-link"
+          >⬅ Back to Dashboard</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

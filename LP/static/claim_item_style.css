@@ -1,0 +1,123 @@
+/* Page background */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Center container */
+.container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    width: 400px;
+    text-align: center;
+}
+
+/* Headings */
+h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+h2 {
+    margin: 5px 0 20px;
+    font-size: 18px;
+    color: #666;
+}
+
+
+/* Flex container */
+.container-claim {
+    display: flex;
+    gap: 30px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    width: 900px;
+    margin: 40px auto;
+}
+
+/* Item Details */
+.item-details {
+    flex: 1;
+    text-align: left;
+}
+.item-details img {
+    width: 100%;
+    max-width: 250px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+.item-details h2 {
+    color: #444;
+    margin-bottom: 10px;
+}
+.item-details p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+/* Claim Form */
+.claim-form {
+    flex: 1;
+    text-align: left;
+    max-width: 350px;  /* limit width */
+}
+.claim-form input,
+.claim-form select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #444;
+}
+input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* Button */
+.btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+.btn:hover {
+    background: #5563c1;
+}
+
+/* Back link */
+.back-link {
+    display: inline-block;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #667eea;
+    font-weight: bold;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
