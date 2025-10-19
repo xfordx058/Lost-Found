@@ -225,17 +225,11 @@ def login():
                 flash("Login successful!", "success")
                 return redirect(url_for("home"))
 
-        flash("Invalid Student ID", "danger")
+        flash("Student not found!", "danger")
     return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     return "Registration is disabled. Please contact admin to add users.", 403
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    flash("You have been logged out.", "info")
-    return redirect(url_for("login"))
 
 app.run(debug=True)

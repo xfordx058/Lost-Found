@@ -5,9 +5,16 @@
         "description": "House & Lot",
         "category": "House",
         "date_found": "2025-09-23T23:38:56.488502",
-        "status": "Unclaimed",
-        "assisting_staff": "",
-        "image": "house.jpg"
+        "status": "Claimed",
+        "assisting_staff": "rocky",
+        "image": "house.jpg",
+        "claimer_name": "BF ni Jona",
+        "college": "COLLEGE OF BUSSINESS ADMINISTRATIONS",
+        "course": "BSBA",
+        "year_section": "2 YEAR 3E",
+        "claimed_at": "September 24, 2025 05:22 PM",
+        "proof_image": "20250924172237_house.jpg",
+        "proof_uploaded_at": "2025-09-24T17:22:37.243646"
     },
     {
         "id": 2,

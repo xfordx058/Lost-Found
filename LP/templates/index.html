@@ -16,13 +16,6 @@
       <div class="nav-links">
         <a href="{{ url_for('home') }}">HOME</a>
         <a href="{{ url_for('staff') }}">STAFF</a>
-
-        {% if session.get('user_id') %}
-          <a href="{{ url_for('logout') }}">LOGOUT</a>
-        {% else %}
-          <a href="{{ url_for('login') }}">LOGIN</a>
-          <a href="{{ url_for('register') }}">REGISTER</a>
-        {% endif %}
       </div>
 
       <div class="search-bar">
