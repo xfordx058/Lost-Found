@@ -54,6 +54,8 @@
             margin-bottom: 35px;
         }
 
+
+
         
         .input-group {
             position: relative;
@@ -136,19 +138,52 @@
                 font-size: 19px;
             }
         }
+    .staggered-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 36px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.staggered-title span {
+    display: inline-block;
+    transition: 0.3s ease;
+}
+
+.staggered-title .amp {
+    transform: translateY(-10px); 
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.staggered-title .found {
+    transform: translateY(10px);
+}
+
+
+
     </style>
 </head>
 <body>
     <div class="login-container">
         <img src="{{ url_for('static', filename='uploads/uep_logo.png') }}" alt="UEP Logo">
-        <h1>UEP LOST & FOUND</h1>
+        <h1 class="staggered-title">
+  <span>Lost</span>
+  <span class="amp">&</span>
+  <span class="found">Found</span>
+</h1>
+
 
         <form method="POST">
             <div class="input-group">
-                <input type="number" id="student_id" name="student_id" placeholder=" " required>
+                <input type="text" id="student_id" name="student_id" placeholder=" " required>
                 <label for="student_id">Student ID</label>
             </div>
             <button type="submit">Login</button>
+            <footer>Copyrights By BSIT-2E</footer>
+
         </form>
 
         {% with messages = get_flashed_messages(with_categories=true) %}

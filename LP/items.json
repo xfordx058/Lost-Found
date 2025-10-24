@@ -1,29 +1,49 @@
 [
     {
         "id": 1,
-        "name": "Balay ni Jona",
-        "description": "House & Lot",
-        "category": "House",
-        "date_found": "2025-09-23T23:38:56.488502",
-        "status": "Claimed",
-        "assisting_staff": "rocky",
-        "image": "house.jpg",
-        "claimer_name": "BF ni Jona",
-        "college": "COLLEGE OF BUSSINESS ADMINISTRATIONS",
-        "course": "BSBA",
-        "year_section": "2 YEAR 3E",
-        "claimed_at": "September 24, 2025 05:22 PM",
-        "proof_image": "20250924172237_house.jpg",
-        "proof_uploaded_at": "2025-09-24T17:22:37.243646"
+        "name": "Jona",
+        "description": "Basta bata ini hahha",
+        "category": "People",
+        "date_found": "2025-10-21T14:53:07.735748",
+        "status": "Unclaimed",
+        "assisting_staff": "",
+        "image": "delete.png"
     },
     {
         "id": 2,
-        "name": "Rusi",
-        "description": "susi san rusi",
-        "category": "Key",
-        "date_found": "2025-09-23T23:50:05.190853",
+        "name": "Rusi ",
+        "description": "Naagihan ko sa acad mga 1pm knina sa room 110 CS",
+        "category": "key",
+        "date_found": "2025-10-21T14:55:38.943146",
         "status": "Unclaimed",
         "assisting_staff": "",
-        "image": "Capture4.PNG"
+        "image": "susi.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Payong",
+        "description": "Color green na payong naagihan ko sa acad room 115 paki contact nla ak sa Fb (Juan Dela Cruz)",
+        "category": "Umbrella",
+        "date_found": "2025-10-21T14:58:38.177281",
+        "status": "Unclaimed",
+        "assisting_staff": "",
+        "image": "payong.jpg"
+    },
+    {
+        "id": 4,
+        "name": "Jacket",
+        "description": "Red Jacket found in the acad room 119",
+        "category": "Clothes",
+        "date_found": "2025-10-21T15:19:19.203072",
+        "status": "Claimed",
+        "assisting_staff": "Glen Ford Anquilo",
+        "image": "jacket.jpg",
+        "claimer_name": "Jane Cabales",
+        "college": "COE",
+        "course": "BSEE",
+        "year_section": "2nd year",
+        "claimed_at": "October 21, 2025 05:31 PM",
+        "proof_image": "20251021173147_29bb6ac7-e6ef-4b5d-8950-869c1716c33d.jpg",
+        "proof_uploaded_at": "2025-10-21T17:31:47.503713"
     }
 ]

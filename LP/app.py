@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from functools import wraps
 import json, os, datetime
 from werkzeug.utils import secure_filename
 
@@ -12,10 +13,20 @@ UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 
-# --- Make session available in all templates ---
-@app.context_processor
-def inject_session():
-    return dict(session=session)
+def is_admin():
+    """Check if current user has admin role."""
+    return session.get('user_role') == 'Admin'
+
+def admin_required(f):
+    """Decorator to require admin access for a route."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not is_admin():
+            flash('Admin access required.', 'error')
+            return redirect(url_for('home'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 # --- Template Filter ---
 @app.template_filter("format_datetime")
@@ -49,7 +60,15 @@ def staff():
     if "user_id" not in session:
         return redirect(url_for("login"))
     staff_list = load_staff()
-    return render_template("staff.html", staff=staff_list)
+    selected_role = request.args.get("role", "")
+    if selected_role:
+        #
+        sel_lower = selected_role.lower()
+        filtered = [s for s in staff_list if (s.get("role") or "").lower() == sel_lower]
+    else:
+        filtered = staff_list
+
+    return render_template("staff.html", staff=filtered, selected_role=selected_role)
 
 @app.route("/staff/add", methods=["GET", "POST"])
 def add_staff():
@@ -81,6 +100,13 @@ def load_items():
 def save_items(items):
     save_json(ITEMS_FILE, items)
 
+def get_categories():
+    """Return a sorted list of unique categories from items.json."""
+    items = load_items()
+    cats = { (i.get('category') or '').strip() for i in items if i.get('category') }
+    # Remove empty strings and sort
+    return sorted([c for c in cats if c])
+
 # --- Routes ---
 @app.route("/")
 def home():
@@ -88,10 +114,17 @@ def home():
         return redirect(url_for("login"))
 
     query = request.args.get("q", "").lower()
+    selected_category = request.args.get("category", "")
     items = load_items()
 
+    # Filter by search query
     if query:
-        items = [i for i in items if query in i["name"].lower() or query in i["category"].lower()]
+        items = [i for i in items if query in i["name"].lower() or query in (i.get("category") or "").lower()]
+
+    # Filter by category if provided (case-insensitive)
+    if selected_category:
+        sel_cat = selected_category.lower()
+        items = [i for i in items if (i.get("category") or "").lower() == sel_cat]
 
     for item in items:
         date_found = datetime.datetime.fromisoformat(item["date_found"])
@@ -111,7 +144,9 @@ def home():
         else:
             item["time_stored"] = "Just now"
 
-    return render_template("index.html", items=items, query=query)
+    # collect categories for the UI
+    categories = get_categories()
+    return render_template("index.html", items=items, query=query, categories=categories, selected_category=selected_category)
 
 @app.route("/add", methods=["GET", "POST"])
 def add_item():
@@ -222,6 +257,7 @@ def login():
         for user in users:
             if str(user.get("student_id")) == student_id:
                 session["user_id"] = user["id"]
+                session["user_role"] = user.get("role", "Staff")  # Store user role, default to Staff
                 flash("Login successful!", "success")
                 return redirect(url_for("home"))
 
@@ -231,5 +267,45 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     return "Registration is disabled. Please contact admin to add users.", 403
+
+@app.route("/logout")
+def logout():
+    # Clear the session
+    session.clear()
+    flash("You have been logged out.", "info")
+    return redirect(url_for("login"))
+
+@app.route("/admin")
+@admin_required
+def admin_panel():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    
+    # Load all data for statistics
+    items = load_items()
+    staff_list = load_staff()
+    users = load_json(USERS_FILE)
+
+    # Calculate statistics
+    stats = {
+        "total_items": len(items),
+        "claimed_items": len([i for i in items if i["status"] == "Claimed"]),
+        "unclaimed_items": len([i for i in items if i["status"] == "Unclaimed"]),
+        "total_staff": len(staff_list),
+        "total_users": len(users),
+        "items_by_category": {}
+    }
+
+    # Count items by category
+    for item in items:
+        category = item.get("category", "Uncategorized")
+        stats["items_by_category"][category] = stats["items_by_category"].get(category, 0) + 1
+
+    return render_template("admin_panel.html", stats=stats, items=items, staff=staff_list, users=users)
+@app.route("/admin/items")
+def view_items():
+    with open("items.json", "r") as f:
+        items = json.load(f)
+    return render_template("items.html", items=items)
 
 app.run(debug=True)

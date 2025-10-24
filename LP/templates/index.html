@@ -11,14 +11,19 @@
   <body>
     <h1>UEP Lost & Found Dashboard</h1>
 
-    <!-- NAVIGATION BAR -->
+    
     <div class="navbar">
       <div class="nav-links">
         <a href="{{ url_for('home') }}">HOME</a>
         <a href="{{ url_for('staff') }}">STAFF</a>
+        {% if session.get('user_role') == 'Admin' %}
+        <a href="{{ url_for('admin_panel') }}">ADMIN PANEL</a>
+        {% endif %}
       </div>
 
-      <div class="search-bar">
+      
+    </div>
+    <div class="search-bar">
         <form method="GET" action="{{ url_for('home') }}">
           <input
             type="text"
@@ -26,11 +31,16 @@
             placeholder="🔍 Search item..."
             value="{{ query }}"
           />
+          <select class="btn" name="category" onchange="this.form.submit()">
+            <option value="">All Categories</option>
+            {% for c in categories %}
+              <option value="{{ c }}" {% if selected_category == c %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+          </select>
+          <a href="{{ url_for('add_item') }}" class="btn">Add New Item</a>
         </form>
       </div>
-    </div>
-
-    <a href="{{ url_for('add_item') }}" class="btn">Add New Item</a>
+    
 
     <table>
       <tr>

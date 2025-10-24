@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>All Items</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th>Date Found</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.status }}</td>
+        <td>{{ item.date_found }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

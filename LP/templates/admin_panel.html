@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='adminpanel.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+        <div class="logo">Lost & Found Admin</div>
+        <ul>
+            <li class="active"><a href="{{ url_for('admin_panel') }}">🏠 Dashboard</a></li>
+            <li><a href="{{ url_for('view_items') }}">📦 Items</a></li>
+            <li><a href="{{ url_for('staff') }}">👥 Staff</a></li>
+            
+            <li><a href="{{ url_for('logout') }}">🚪 Logout</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-container">
+        <div class="admin-header">
+            <h1>Admin Dashboard</h1>
+        </div>
+
+        <div class="admin-stats">
+            <div class="stat-card">
+                <h3>Items Overview</h3>
+                <div class="stat-value">{{ stats.total_items }}</div>
+                <p>Total Items</p>
+                <p>Claimed: <strong>{{ stats.claimed_items }}</strong></p>
+                <p>Unclaimed: <strong>{{ stats.unclaimed_items }}</strong></p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Users & Staff</h3>
+                <div class="stat-value">{{ stats.total_staff }}</div>
+                <p>Total Staff Members</p>
+                <p>Registered Users: <strong>{{ stats.total_users }}</strong></p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Items by Category</h3>
+                {% for category, count in stats.items_by_category.items() %}
+                <p><strong>{{ category }}</strong>: {{ count }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Staff Management -->
+        <section class="admin-section">
+            <h2>Staff Management</h2>
+            <div class="admin-filters">
+                <input type="text" class="admin-search" placeholder="Search staff...">
+                <a href="{{ url_for('add_staff') }}" class="admin-btn admin-btn-primary">
+                    <i class="fas fa-plus"></i> Add New Staff
+                </a>
+            </div>
+
+            <table class="admin-table">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Date Added</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+                {% for s in staff %}
+                <tr>
+                    <td>{{ s.id }}</td>
+                    <td>{{ s.name }}</td>
+                    <td><span class="status-badge status-active">{{ s.role }}</span></td>
+                    <td>{{ s.date_added | format_datetime }}</td>
+                    <td class="text-right">
+                        <a href="#" class="admin-btn admin-btn-secondary">Edit</a>
+                        <a href="#" class="admin-btn admin-btn-danger">Remove</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+
+        <!-- Recent Items -->
+        <section class="admin-section">
+            <h2>Recent Items</h2>
+            <div class="admin-filters">
+                <input type="text" class="admin-search" placeholder="Search items...">
+                <select class="admin-select">
+                    <option value="">All Categories</option>
+                    {% for category, _ in stats.items_by_category.items() %}
+                    <option value="{{ category }}">{{ category }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <table class="admin-table">
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Date Found</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+                {% for item in items[-5:] %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>
+                        <span class="status-badge {% if item.status == 'Claimed' %}status-active{% else %}status-inactive{% endif %}">
+                            {{ item.status }}
+                        </span>
+                    </td>
+                    <td>{{ item.date_found | format_datetime }}</td>
+                    <td class="text-right">
+                        <a href="{{ url_for('update_item', item_id=item.id) }}" class="admin-btn admin-btn-secondary">Edit</a>
+                        <a href="{{ url_for('delete_item', item_id=item.id) }}" class="admin-btn admin-btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+    </main>
+</div>
+{% endblock %}

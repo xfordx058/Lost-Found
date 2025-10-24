@@ -1,32 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Staff Members</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <title>Staff Members</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Staff Members</h1>
-    <a href="{{ url_for('home') }}">⬅ Back to Dashboard</a> |
-    <a href="{{ url_for('add_staff') }}">➕ Add Staff</a>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Date Added</th>
-        </tr>
-        {% for s in staff %}
-        <tr>
-            <td>{{ s.id }}</td>
-            <td>{{ s.name }}</td>
-            <td>{{ s.role }}</td>
-            <td>{{ s.date_added }}</td>
-        </tr>
-        {% else %}
-        <tr><td colspan="4">No staff members yet.</td></tr>
-        {% endfor %}
-    </table>
+  <h1>Staff Members</h1>
+
+     <div class="navbar">
+      <div class="nav-links">
+        <a href="{{ url_for('home') }}">HOME</a>
+        <a href="{{ url_for('staff') }}">STAFF</a>
+      </div>
+
+      
+    </div>
+  <div class="search-bar">
+    <form method="GET" action="{{ url_for('staff') }}">
+      <div>
+        <select class="btn" name="role" id="role" onchange="this.form.submit()">
+          <option value="">-- Select Position --</option>
+          <option value="Admin" {% if request.args.get('role') == 'Admin' %}selected{% endif %}>Admin</option>
+          <option value="Staff" {% if request.args.get('role') == 'Staff' %}selected{% endif %}>Staff</option>
+          <option value="Clerk" {% if request.args.get('role') == 'Clerk' %}selected{% endif %}>Clerk</option>
+          <option value="Student" {% if request.args.get('role') == 'Student' %}selected{% endif %}>Student</option>
+        </select>
+      </div>
+    </form>
+    <div class="add-staff-btn">
+      <a href="{{ url_for('add_staff') }}">➕ Add Staff</a>
+    </div> 
+  </div>
+ <h2>Total Staff Members: {{ staff|length }}</h2>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Role</th>
+      <th>Date Added</th>
+    </tr>
+    {% for s in staff %}
+    <tr>
+      <td>{{ s.id }}</td>
+      <td>{{ s.name }}</td>
+      <td>{{ s.role }}</td>
+      <td>{{ s.date_added }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4">No staff members yet.</td></tr>
+    {% endfor %}
+  </table>
+
 </body>
 </html>
